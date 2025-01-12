@@ -33,6 +33,8 @@ public class LinkedLists
         L1.Insert(44, 3);
         L1.Insert(666, 15);
         L1.Show();
+        L1.Delete(1);
+        L1.Show();
     }
 }
 
@@ -140,6 +142,39 @@ public class LinkedList
             return newNode;
         }
         return null;
+    }
+    
+     // O(n) time
+    public Node Delete(int value)
+    {
+        // Search for the position and dereference both ends
+        var current = this.Head;
+        var previous = current;
+        bool found = false;
+        
+        while(!found && current != null){
+            // Head has the found value
+            if(current._value == value && current == this.Head){
+                found = true;
+                this.Head = current.Next;
+            }  
+            
+            /**                              value found
+            **    [..]-->[previous]-->[current to be dereferenced]-->[previous.next] 
+            **
+            **  previous is defined in the last else block, when value is not found
+            */
+            else if(current._value == value){
+                found = true;
+                previous.Next = current.Next;
+            }
+            //    [..]-->[previous=current]-->[current.next]        
+            else{
+                previous = current;
+                current = current.Next; 
+            }
+        }
+        return current;
     }
 
     // O(1) time
