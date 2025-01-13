@@ -34,6 +34,9 @@ public class MergeSort
     private static SplitModel Split(int[] arr){
         int mid = (int)(Math.Floor((double)(arr.Length/2)));
         var result = new SplitModel();
+        /** Span representing arr[n..]
+        Span<int> span = arr.AsSpan(n); // Stack-allocated slice, will make the code O(1)
+        */
         result.Right = arr[mid..];          // O(k)
         result.Left = arr[..mid];           // O(k)
         return result;
