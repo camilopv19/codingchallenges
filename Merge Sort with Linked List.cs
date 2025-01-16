@@ -1,6 +1,3 @@
-// Online C# Editor for free
-// Write, Edit and Run your C# code using C# Online Compiler
-
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,27 +6,24 @@ public class MergeSort
 {
     public static void Main(string[] args)
     {
-        /********************* TODO implement Get with start and end
-        */
         int[] nums = new int[11] { 2, 1, 25, 6, 4, 10, 9, 3, 33, 8, 7 };
         var unsorted = nums2LList(nums);
         var sorted = MSort(unsorted);
         sorted.Show();
-
-        /*print( nameof(nums) + " array is " + (ValidateSort(nums) ? "Sorted" : "Not sorted"));
-        print( nameof(sorted) + " array is " + (ValidateSort(sorted) ? "Sorted" : "Not sorted"));*/
     }
 
+    // Worst case scenario: O( n k log(n))
     public static LinkedList MSort(LinkedList list)
     {
-        if (list.Head == null || list.Size() == 1) return list;
+        if (list.IsEmpty() || list.Size() == 1) return list;
 
-        var (left, right) = Split(list);
-        var leftList = MSort(left);
-        var rightList = MSort(right);
-        return Merge(leftList, rightList);
+        var (left, right) = Split(list);    // O(k log(n))
+        var leftList = MSort(left);         // Split + Sort
+        var rightList = MSort(right);       // Split + Sort
+        return Merge(leftList, rightList);  // O(n)
     }
 
+    // O(n)
     private static LinkedList Merge(LinkedList left, LinkedList right)
     {
         int i = 0, j = 0;
@@ -93,6 +87,7 @@ public class MergeSort
         return list;
     }
 
+    // O( k log(n)) as k being the size of the sublist or "k times the split operations"
     public static (LinkedList left, LinkedList right) Split(LinkedList list)
     {
         if (list.Size() <= 1) return (list, null);
@@ -143,86 +138,6 @@ public class LinkedList
             current = current.Next;
         }
         return count;
-    }
-
-    // O(n) time
-    public Node Search(int value)
-    {
-        Node current = this.Head;
-        while (current != null)
-        {
-            if (current._value == value)
-            {
-                return current;
-            }
-            else
-            {
-                current = current.Next;
-            }
-        }
-        return null;
-    }
-
-
-    // O(n) time
-    public Node Insert(int value, int index)
-    {
-        if (index == 0)
-        {
-            this.Add(value);
-            return new Node(value);
-        }
-
-        if (index > 0)
-        {
-            var newNode = new Node(value);
-            if (index >= this.Size())
-            {
-                index = this.Size();
-            }
-            var position = index;
-            var current = this.Head;
-
-            while (position > 1)
-            {
-                current = current.Next;
-                position--;
-            }
-            var previous = current;
-            var nextNode = current.Next;
-            previous.Next = newNode;
-            newNode.Next = nextNode;
-            return newNode;
-        }
-        return null;
-    }
-
-    // O(n) time
-    public Node Delete(int value)
-    {
-        var current = this.Head;
-        var previous = current;
-        bool found = false;
-
-        while (!found && current != null)
-        {
-            if (current._value == value && current == this.Head)
-            {
-                found = true;
-                this.Head = current.Next;
-            }
-            else if (current._value == value)
-            {
-                found = true;
-                previous.Next = current.Next;
-            }
-            else
-            {
-                previous = current;
-                current = current.Next;
-            }
-        }
-        return current;
     }
 
     // O(1) time
